@@ -9,18 +9,18 @@ import pyautogui
 import pyjokes
 import subprocess
 
-# ================= ENGINE SETUP =================
+# ENGINE SETUP
 engine = pyttsx3.init()
 voices = engine.getProperty('voices')
 engine.setProperty('voice', voices[1].id)
 engine.setProperty('rate', 150)
 
-# ================= SPEAK =================
+# SPEAK
 def speak(text):
     engine.say(text)
     engine.runAndWait()
 
-# ================= TIME & DATE =================
+# TIME & DATE
 def tell_time():
     now = datetime.datetime.now().strftime("%I:%M %p")
     speak(f"The time is {now}")
@@ -31,7 +31,7 @@ def tell_date():
     speak(f"Today is {now.day} {now.strftime('%B')} {now.year}")
     print(now)
 
-# ================= WISH =================
+# WISH
 def wishme():
     hour = datetime.datetime.now().hour
 
@@ -45,7 +45,7 @@ def wishme():
     name = load_name()
     speak(f"{name} ready")
 
-# ================= NAME =================
+# NAME
 def set_name():
     speak("What should I be called?")
     name = takecommand()
@@ -61,7 +61,7 @@ def load_name():
     except:
         return "Jarvis"
 
-# ================= COMMAND =================
+# COMMAND
 def takecommand():
     r = sr.Recognizer()
 
@@ -81,7 +81,7 @@ def takecommand():
     except:
         return None
 
-# ================= MUSIC =================
+# MUSIC
 def play_music(song_name=None):
     music_dir = os.path.join(os.path.expanduser("~"), "Music")
 
@@ -99,15 +99,15 @@ def play_music(song_name=None):
         path = os.path.join(music_dir, song)
 
         try:
-            os.startfile(path)  # Windows
+            os.startfile(path)  
         except:
-            subprocess.call(["xdg-open", path])  # Linux
+            subprocess.call(["xdg-open", path]) 
 
         speak(f"Playing {song}")
     else:
         speak("No song found")
 
-# ================= SCREENSHOT =================
+# SCREENSHOT
 def screenshot():
     filename = f"screenshot_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}.png"
     path = os.path.join(os.path.expanduser("~"), "Pictures", filename)
@@ -118,7 +118,7 @@ def screenshot():
     speak("Screenshot saved")
     print(path)
 
-# ================= WIKIPEDIA =================
+# WIKIPEDIA
 def search_wikipedia(query):
     try:
         result = wikipedia.summary(query, sentences=2)
@@ -127,19 +127,19 @@ def search_wikipedia(query):
     except:
         speak("No result found")
 
-# ================= GOOGLE SEARCH =================
+# GOOGLE SEARCH
 def search_google(query):
     url = f"https://www.google.com/search?q={query}"
     wb.open(url)
     speak("Searching Google")
 
-# ================= SAFE POWER =================
+# SAFE POWER
 def confirm_action(action):
     speak(f"Are you sure you want to {action}?")
     ans = takecommand()
     return ans and "yes" in ans
 
-# ================= MAIN =================
+# MAIN
 if __name__ == "__main__":
     wishme()
 
